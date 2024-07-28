@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>desarrollo web entorno cliente</title>
+    <style>
+        body {
+            margin: 0px;
+            padding: 0px;
+            background-color: darkgrey;
+            font-family: monospace;
+            font-size: 16px;
+        }
+
+        h1,
+        h2 {
+            color: #FFFFFF;
+            font-weight: normal;
+            text-align: center;
+        }
+
+        #head {
+            margin-right: 10px;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .home,
+        .doc,
+        .git {
+            margin-top: 10px;
+            width: 100px;
+        }
+
+        hr {
+            margin: 15px auto;
+            height: 1px;
+            width: 80%;
+            background-color: white;
+        }
+
+        button {
+            margin-left: 15px;
+            padding: 10px;
+            font-size: 15px;
+            background-color: grey;
+            color: white;
+            border-color: black;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.25s;
+        }
+
+        button:hover {
+            background-color: lightgrey;
+        }
+
+        select {
+            margin: 15px;
+            padding: 10px;
+            font-size: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        #data {
+            margin-left: 15px;
+            padding: 15px;
+            background-color: white;
+            border-radius: 10px;
+            width: 75%;
+        }
+
+        footer {
+            background-color: grey;
+            color: white;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+    <script>
+        var xml;
+        function loadXML() {
+            xml = new XMLHttpRequest();
+            xml.addEventListener("readystatechange", answerXML, false);
+            xml.open("GET", "cd_catalog.xml", true);
+            xml.send();
+        }
+        function answerXML() {
+            if (event.target.readyState == 4 && event.target.status == 200) {
+                var xmlDoc = xml.responseXML;
+                var artistas = xmlDoc.getElementsByTagName("ARTIST");
+                var select = document.getElementById("select");
+                select.innerHTML = "<option>selecciona artista</option>";
+                for (var i = 0; i < artistas.length; i++) {
+                    var option = document.createElement("option");
+                    option.text = artistas[i].childNodes[0].nodeValue;
+                    select.add(option);
+                }
+            }
+        }
+        function mostrarDatos() {
+            var select = document.getElementById("select");
+            var artistaSeleccionado = select.options
+            [select.selectedIndex].text;
+            var xmlDoc = xml.responseXML;
+            var cd = xmlDoc.getElementsByTagName("CD");
+            var datos = document.getElementById("data");
+            datos.innerHTML = "";
+            for (var i = 0; i < cd.length; i++) {
+                var artistaCD = cd[i].getElementsByTagName
+                    ("ARTIST")[0].childNodes[0].nodeValue;
+                if (artistaCD === artistaSeleccionado) {
+                    var title = cd[i].getElementsByTagName
+                        ("TITLE")[0].childNodes[0].nodeValue;
+                    var country = cd[i].getElementsByTagName
+                        ("COUNTRY")[0].childNodes[0].nodeValue;
+                    var company = cd[i].getElementsByTagName
+                        ("COMPANY")[0].childNodes[0].nodeValue;
+                    var price = cd[i].getElementsByTagName
+                        ("PRICE")[0].childNodes[0].nodeValue;
+                    var year = cd[i].getElementsByTagName
+                        ("YEAR")[0].childNodes[0].nodeValue;
+                    datos.innerHTML += "<b>título:</b> "
+                        + title + "<br>";
+                    datos.innerHTML += "<b>país:</b> "
+                        + country + "<br>";
+                    datos.innerHTML += "<b>discográfica:</b> "
+                        + company + "<br>";
+                    datos.innerHTML += "<b>precio:</b> "
+                        + price + " $" + "<br>";
+                    datos.innerHTML += "<b>año:</b> "
+                        + year + "<br><br>";
+                }
+            }
+        }
+
+        function goHome() {
+
+            window.location.href = '/';
+
+        }
+
+        function goGit() {
+
+            window.location.href = 'https://github.com/s7rg77/AJAX-and-XML';
+
+        }
+
+        function goDoc() {
+
+            window.location.href = '/doc';
+
+        }
+    </script>
+</head>
+
+<body>
+    <div id="head">
+        <button class="doc" onclick="goDoc()">doc</button>
+        <button class="git" onclick="goGit()">git</button>
+        <button class="home" onclick="goHome()">back</button>
+    </div>
+    <h1>AJAX and XML</h1>
+    <h2>sergio lópez</h2>
+    <hr>
+    <button type="button" onclick="loadXML()">rellena
+        la lista desplegable</button><br>
+    <select id="select" onchange="mostrarDatos()"></select>
+    <div id="data"></div>
+</body>
+
+<footer>
+    <h3>desarrollo web entorno cliente</h3>
+</footer>
+
+</html>
