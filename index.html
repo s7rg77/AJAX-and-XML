@@ -6,10 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AJAX and XML</title>
     <style>
+        html,
         body {
             margin: 0px;
             padding: 0px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        body {
             background-color: darkgrey;
+            color: black;
             font-family: monospace;
             font-size: 16px;
         }
@@ -21,16 +29,21 @@
             text-align: center;
         }
 
-        #head {
+        header {
+            margin-top: 10px;
             margin-right: 10px;
             display: flex;
             justify-content: flex-end;
         }
 
+        main {
+            margin-bottom: 15px;
+            flex: 1;
+        }
+
         .home,
         .doc,
         .git {
-            margin-top: 10px;
             width: 100px;
         }
 
@@ -42,7 +55,7 @@
         }
 
         button {
-            margin-left: 15px;
+            margin-left: 10px;
             padding: 10px;
             font-size: 15px;
             background-color: grey;
@@ -76,12 +89,10 @@
         }
 
         footer {
-            bottom: 0px;
             width: 100%;
             background-color: grey;
             color: white;
             text-align: center;
-            position: fixed;
         }
     </style>
     <script>
@@ -162,22 +173,26 @@
 </head>
 
 <body>
-    <div id="head">
+    <header>
         <button class="doc" onclick="goDoc()">doc</button>
         <button class="git" onclick="goGit()">git</button>
         <button class="home" onclick="goHome()">back</button>
-    </div>
-    <h1>AJAX and XML</h1>
-    <h2>sergio lópez</h2>
-    <hr>
-    <button type="button" onclick="loadXML()">rellena
-        la lista desplegable</button><br>
-    <select id="select" onchange="mostrarDatos()"></select>
-    <div id="data"></div>
-</body>
+    </header>
 
-<footer>
-    <h3>desarrollo web entorno cliente</h3>
-</footer>
+    <main>
+        <h1>AJAX and XML</h1>
+        <h2>sergio lópez</h2>
+        <hr>
+        <button type="button" onclick="loadXML()">rellena
+            la lista desplegable</button><br>
+        <select id="select" onchange="mostrarDatos()"></select>
+        <div id="data"></div>
+    </main>
+
+    <footer>
+        <h3>desarrollo web entorno cliente</h3>
+    </footer>
+
+</body>
 
 </html>
